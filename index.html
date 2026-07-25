@@ -215,17 +215,17 @@
   <form id="briefing">
     <fieldset>
       <div class="q"><span class="n">01</span>Nome e perfil(s) / redes</div>
-      <input type="text" id="perfis" name="perfis" placeholder="Ex: @suamarca — Instagram, TikTok">
+      <input type="text" id="perfis" name="perfis" placeholder="Ex: @suamarca — Instagram, TikTok" required>
     </fieldset>
 
     <fieldset>
       <div class="q"><span class="n">02</span>Segmento/nicho do negócio</div>
-      <input type="text" id="segmento" name="segmento" placeholder="Ex: moda, saúde, jurídico...">
+      <input type="text" id="segmento" name="segmento" placeholder="Ex: moda, saúde, jurídico..." required>
     </fieldset>
 
     <fieldset>
       <div class="q"><span class="n">03</span>Quantos posts por mês você imagina, no total?</div>
-      <input type="number" id="qtdPosts" name="posts_por_mes" min="1" placeholder="Ex: 12">
+      <input type="number" id="qtdPosts" name="posts_por_mes" min="1" placeholder="Ex: 12" required>
     </fieldset>
 
     <fieldset>
@@ -259,7 +259,7 @@
 
     <fieldset>
       <div class="q"><span class="n">05</span>Principal objetivo</div>
-      <select id="objetivo" name="objetivo">
+      <select id="objetivo" name="objetivo" required>
         <option value="">Selecione</option>
         <option>Aumentar seguidores/alcance</option>
         <option>Gerar vendas/leads</option>
@@ -273,7 +273,7 @@
       <div class="row2">
         <div>
           <div class="q"><span class="n">06</span>Faixa de orçamento disponível</div>
-          <select id="orcamento" name="orcamento">
+          <select id="orcamento" name="orcamento" required>
             <option value="">Selecione</option>
             <option>Até R$ 1.000/mês</option>
             <option>R$ 1.000 – R$ 2.500/mês</option>
@@ -284,7 +284,7 @@
         </div>
         <div>
           <div class="q"><span class="n">07</span>Tipo de contrato</div>
-          <select id="contrato" name="tipo_contrato">
+          <select id="contrato" name="tipo_contrato" required>
             <option value="">Selecione</option>
             <option>Avulso (job único)</option>
             <option>Recorrente mensal</option>
@@ -298,11 +298,11 @@
       <div class="row2">
         <div>
           <div class="q"><span class="n">08</span>Prazo de início desejado</div>
-          <input type="text" id="prazo" name="prazo_inicio" placeholder="Ex: imediato, próximo mês...">
+          <input type="text" id="prazo" name="prazo_inicio" placeholder="Ex: imediato, próximo mês..." required>
         </div>
         <div>
           <div class="q"><span class="n">09</span>Já teve agência/freelancer antes?</div>
-          <select id="historico" name="historico_agencia">
+          <select id="historico" name="historico_agencia" required>
             <option value="">Selecione</option>
             <option>Sim</option>
             <option>Não</option>
@@ -315,7 +315,7 @@
       <div class="row2">
         <div>
           <div class="q"><span class="n">10</span>Já tem identidade visual?</div>
-          <select id="identidade" name="identidade_visual">
+          <select id="identidade" name="identidade_visual" required>
             <option value="">Selecione</option>
             <option>Sim, completa</option>
             <option>Parcial</option>
@@ -324,7 +324,7 @@
         </div>
         <div>
           <div class="q"><span class="n">11</span>Produção das fotos/vídeos</div>
-          <select id="producao" name="producao_fotos_videos">
+          <select id="producao" name="producao_fotos_videos" required>
             <option value="">Selecione</option>
             <option>Preciso de produção in loco (fotos/vídeos no local)</option>
             <option>Eu envio o material, só preciso de edição</option>
@@ -338,7 +338,7 @@
       <div class="row2">
         <div>
           <div class="q"><span class="n">12</span>Gestão de comunidade?</div>
-          <select id="comunidade" name="gestao_comunidade">
+          <select id="comunidade" name="gestao_comunidade" required>
             <option value="">Selecione</option>
             <option>Sim, quero resposta a comentários/DMs</option>
             <option>Não preciso</option>
@@ -347,7 +347,7 @@
         </div>
         <div>
           <div class="q"><span class="n">13</span>Relatórios e reuniões</div>
-          <select id="relatorios" name="relatorios_reunioes">
+          <select id="relatorios" name="relatorios_reunioes" required>
             <option value="">Selecione</option>
             <option>Mensal</option>
             <option>Quinzenal</option>
@@ -359,7 +359,7 @@
 
     <fieldset>
       <div class="q"><span class="n">14</span>Como prefere receber o conteúdo?</div>
-      <select id="modelo" name="modelo_entrega">
+      <select id="modelo" name="modelo_entrega" required>
         <option value="">Selecione</option>
         <option>Quero receber os posts prontos e publicar eu mesmo</option>
         <option>Quero que gerenciem a conta 100% (incluindo publicação)</option>
@@ -374,7 +374,7 @@
 
     <fieldset>
       <div class="q"><span class="n">16</span>Seu contato (e-mail ou WhatsApp)</div>
-      <input type="text" id="contato" name="contato_cliente" placeholder="seuemail@exemplo.com">
+      <input type="text" id="contato" name="contato_cliente" placeholder="seuemail@exemplo.com" required>
     </fieldset>
 
     <input type="hidden" id="resumoField" name="resumo_completo">
@@ -388,8 +388,15 @@
 
 <script>
   // Antes do envio, compila todas as respostas em um resumo legível
-  document.getElementById('briefing').addEventListener('submit', function(){
-    const formatos = Array.from(document.querySelectorAll('#formatos input:checked')).map(i => i.value).join(', ') || '—';
+  document.getElementById('briefing').addEventListener('submit', function(e){
+    const marcados = document.querySelectorAll('#formatos input:checked');
+    if(marcados.length === 0){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      alert('Selecione pelo menos um formato (Post estático, Carrossel, Reels ou Stories) antes de enviar.');
+      return;
+    }
+    const formatos = Array.from(marcados).map(i => i.value).join(', ') || '—';
     const val = id => document.getElementById(id).value || '—';
 
     const texto =

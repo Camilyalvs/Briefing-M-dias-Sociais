@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — Gestão de Mídias Sociais</title>
+<style>
+  :root{
+    --ink:#1c1b19;
+    --paper:#faf7f2;
+    --line:#e4ded3;
+    --accent:#2f5d50;
+    --accent-soft:#dce9e4;
+    --coral:#c8553d;
+    --muted:#8a8478;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:40px 24px 64px;
+  }
+  .grid-mark{
+    display:flex;
+    gap:6px;
+    margin-bottom:18px;
+  }
+  .grid-mark span{
+    width:8px;height:8px;border-radius:1px;background:var(--coral);
+  }
+  .grid-mark span:nth-child(2){background:var(--accent);}
+  .grid-mark span:nth-child(3){background:var(--muted);opacity:.5;}
+  h1{
+    font-family:Georgia, 'Times New Roman', serif;
+    font-size:30px;
+    line-height:1.15;
+    margin:0 0 8px;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    color:var(--muted);
+    font-size:14.5px;
+    line-height:1.5;
+    margin:0 0 20px;
+    max-width:52ch;
+  }
+  .sub:last-of-type{margin-bottom:36px;}
+  form{
+    display:flex;
+    flex-direction:column;
+    gap:26px;
+  }
+  fieldset{
+    border:none;
+    margin:0;
+    padding:0;
+  }
+  .q{
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:10px;
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+  }
+  .q .n{
+    font-family:Georgia, serif;
+    font-style:italic;
+    color:var(--coral);
+    font-weight:400;
+    font-size:13px;
+  }
+  input[type="text"], input[type="number"], input[type="email"], textarea, select{
+    width:100%;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:6px;
+    padding:11px 12px;
+    font-size:14.5px;
+    font-family:inherit;
+    color:var(--ink);
+  }
+  input:focus, textarea:focus, select:focus{
+    outline:2px solid var(--accent);
+    outline-offset:1px;
+    border-color:var(--accent);
+  }
+  textarea{resize:vertical;min-height:70px;}
+  .opts{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .opt{
+    position:relative;
+  }
+  .opt input{
+    position:absolute;
+    opacity:0;
+    width:100%;height:100%;
+    cursor:pointer;
+    margin:0;
+  }
+  .opt label{
+    display:block;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:20px;
+    padding:8px 15px;
+    font-size:13.5px;
+    cursor:pointer;
+    transition:.12s;
+    user-select:none;
+  }
+  .opt input:checked + label{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+  }
+  .opt input:focus-visible + label{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+  .row2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  @media (max-width:480px){ .row2{grid-template-columns:1fr;gap:26px;} }
+  .freq-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px 16px;
+  }
+  @media (max-width:480px){ .freq-grid{grid-template-columns:1fr;} }
+  .freq-item label{
+    display:block;
+    font-size:12.5px;
+    color:var(--muted);
+    margin-bottom:5px;
+  }
+  .hint{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:6px;
+  }
+  button{
+    margin-top:8px;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    border-radius:6px;
+    padding:14px 20px;
+    font-size:14.5px;
+    font-weight:600;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  button:hover{background:var(--accent);}
+  #resumo{
+    display:none;
+    margin-top:28px;
+    background:var(--accent-soft);
+    border-radius:8px;
+    padding:20px;
+    font-size:13.5px;
+    line-height:1.7;
+    white-space:pre-wrap;
+    font-family:'SF Mono', Consolas, monospace;
+  }
+  #resumo h2{
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin:0 0 12px;
+    color:var(--accent);
+  }
+  .actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
+  }
+  .copybtn, .mailbtn{
+    background:transparent;
+    border:1px solid var(--accent);
+    color:var(--accent);
+    padding:9px 16px;
+    font-size:13px;
+    margin-top:0;
+  }
+  .mailbtn{
+    background:var(--accent);
+    color:#fff;
+  }
+  .copybtn:hover{background:var(--accent);color:#fff;}
+  .mailbtn:hover{background:#254a40;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="grid-mark"><span></span><span></span><span></span></div>
+  <h1>Briefing para orçamento<br>de mídias sociais</h1>
+  <p class="sub">Preencha as informações abaixo para que possamos preparar uma proposta sob medida. Leva de 3 a 5 minutos.</p>
+  <p class="sub">Nosso serviço abrange <strong>planejamento de conteúdo, design e copywriting</strong>. Não inclui gestão de tráfego pago / anúncios.</p>
+
+  <form id="briefing">
+    <fieldset>
+      <div class="q"><span class="n">01</span>Nome e perfil(s) / redes</div>
+      <input type="text" id="perfis" name="perfis" placeholder="Ex: @suamarca — Instagram, TikTok">
+    </fieldset>
+
+    <fieldset>
+      <div class="q"><span class="n">02</span>Segmento/nicho do negócio</div>
+      <input type="text" id="segmento" name="segmento" placeholder="Ex: moda, saúde, jurídico...">
+    </fieldset>
+
+    <fieldset>
+      <div class="q"><span class="n">03</span>Quantos posts por mês você imagina, no total?</div>
+      <input type="number" id="qtdPosts" name="posts_por_mes" min="1" placeholder="Ex: 12">
+    </fieldset>
+
+    <fieldset>
+      <div class="q"><span class="n">04</span>Formatos desejados e frequência de cada um</div>
+      <div class="opts" id="formatos" style="margin-bottom:14px;">
+        <div class="opt"><input type="checkbox" id="f1" value="Post estático"><label for="f1">Post estático</label></div>
+        <div class="opt"><input type="checkbox" id="f2" value="Carrossel"><label for="f2">Carrossel</label></div>
+        <div class="opt"><input type="checkbox" id="f3" value="Reels"><label for="f3">Reels</label></div>
+        <div class="opt"><input type="checkbox" id="f4" value="Stories"><label for="f4">Stories</label></div>
+      </div>
+      <div class="freq-grid">
+        <div class="freq-item">
+          <label for="freqPost">Post estático — frequência</label>
+          <input type="text" id="freqPost" name="freq_post_estatico" placeholder="Ex: 2x por semana">
+        </div>
+        <div class="freq-item">
+          <label for="freqCarrossel">Carrossel — frequência</label>
+          <input type="text" id="freqCarrossel" name="freq_carrossel" placeholder="Ex: 1x por semana">
+        </div>
+        <div class="freq-item">
+          <label for="freqReels">Reels — frequência</label>
+          <input type="text" id="freqReels" name="freq_reels" placeholder="Ex: 3x por semana">
+        </div>
+        <div class="freq-item">
+          <label for="freqStory">Stories — frequência</label>
+          <input type="text" id="freqStory" name="freq_stories" placeholder="Ex: diariamente">
+        </div>
+      </div>
+      <div class="hint">Preencha só os formatos que marcou acima.</div>
+    </fieldset>
+
+    <fieldset>
+      <div class="q"><span class="n">05</span>Principal objetivo</div>
+      <select id="objetivo" name="objetivo">
+        <option value="">Selecione</option>
+        <option>Aumentar seguidores/alcance</option>
+        <option>Gerar vendas/leads</option>
+        <option>Engajamento com a audiência</option>
+        <option>Fortalecer marca/branding</option>
+        <option>Outro</option>
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <div class="row2">
+        <div>
+          <div class="q"><span class="n">06</span>Faixa de orçamento disponível</div>
+          <select id="orcamento" name="orcamento">
+            <option value="">Selecione</option>
+            <option>Até R$ 1.000/mês</option>
+            <option>R$ 1.000 – R$ 2.500/mês</option>
+            <option>R$ 2.500 – R$ 5.000/mês</option>
+            <option>Acima de R$ 5.000/mês</option>
+            <option>Ainda não defini</option>
+          </select>
+        </div>
+        <div>
+          <div class="q"><span class="n">07</span>Tipo de contrato</div>
+          <select id="contrato" name="tipo_contrato">
+            <option value="">Selecione</option>
+            <option>Avulso (job único)</option>
+            <option>Recorrente mensal</option>
+            <option>Período de teste (ex: 3 meses)</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="row2">
+        <div>
+          <div class="q"><span class="n">08</span>Prazo de início desejado</div>
+          <input type="text" id="prazo" name="prazo_inicio" placeholder="Ex: imediato, próximo mês...">
+        </div>
+        <div>
+          <div class="q"><span class="n">09</span>Já teve agência/freelancer antes?</div>
+          <select id="historico" name="historico_agencia">
+            <option value="">Selecione</option>
+            <option>Sim</option>
+            <option>Não</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="row2">
+        <div>
+          <div class="q"><span class="n">10</span>Já tem identidade visual?</div>
+          <select id="identidade" name="identidade_visual">
+            <option value="">Selecione</option>
+            <option>Sim, completa</option>
+            <option>Parcial</option>
+            <option>Não tenho ainda</option>
+          </select>
+        </div>
+        <div>
+          <div class="q"><span class="n">11</span>Produção das fotos/vídeos</div>
+          <select id="producao" name="producao_fotos_videos">
+            <option value="">Selecione</option>
+            <option>Preciso de produção in loco (fotos/vídeos no local)</option>
+            <option>Eu envio o material, só preciso de edição</option>
+            <option>Um pouco dos dois</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="row2">
+        <div>
+          <div class="q"><span class="n">12</span>Gestão de comunidade?</div>
+          <select id="comunidade" name="gestao_comunidade">
+            <option value="">Selecione</option>
+            <option>Sim, quero resposta a comentários/DMs</option>
+            <option>Não preciso</option>
+            <option>Ainda não sei</option>
+          </select>
+        </div>
+        <div>
+          <div class="q"><span class="n">13</span>Relatórios e reuniões</div>
+          <select id="relatorios" name="relatorios_reunioes">
+            <option value="">Selecione</option>
+            <option>Mensal</option>
+            <option>Quinzenal</option>
+            <option>Não preciso de reuniões, só relatório</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div class="q"><span class="n">14</span>Como prefere receber o conteúdo?</div>
+      <select id="modelo" name="modelo_entrega">
+        <option value="">Selecione</option>
+        <option>Quero receber os posts prontos e publicar eu mesmo</option>
+        <option>Quero que gerenciem a conta 100% (incluindo publicação)</option>
+        <option>Ainda não sei</option>
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <div class="q"><span class="n">15</span>Observações ou informações extras</div>
+      <textarea id="obs" name="observacoes" placeholder="Concorrentes de referência, particularidades da marca, etc."></textarea>
+    </fieldset>
+
+    <fieldset>
+      <div class="q"><span class="n">16</span>Seu contato (e-mail ou WhatsApp)</div>
+      <input type="text" id="contato" name="contato_cliente" placeholder="seuemail@exemplo.com">
+    </fieldset>
+
+    <input type="hidden" id="resumoField" name="resumo_completo">
+
+    <div data-fs-success id="successBox" style="display:none;background:var(--accent-soft);border-radius:8px;padding:16px 18px;font-size:14px;"></div>
+    <div data-fs-error style="color:var(--coral);font-size:13px;"></div>
+
+    <button type="submit" id="enviarBtn" data-fs-submit-btn>Enviar briefing</button>
+  </form>
+</div>
+
+<script>
+  // Antes do envio, compila todas as respostas em um resumo legível
+  document.getElementById('briefing').addEventListener('submit', function(){
+    const formatos = Array.from(document.querySelectorAll('#formatos input:checked')).map(i => i.value).join(', ') || '—';
+    const val = id => document.getElementById(id).value || '—';
+
+    const texto =
+`Perfis/redes: ${val('perfis')}
+Segmento/nicho: ${val('segmento')}
+Posts por mês (total): ${val('qtdPosts')}
+Formatos selecionados: ${formatos}
+  - Post estático: ${val('freqPost')}
+  - Carrossel: ${val('freqCarrossel')}
+  - Reels: ${val('freqReels')}
+  - Stories: ${val('freqStory')}
+Objetivo principal: ${val('objetivo')}
+Faixa de orçamento: ${val('orcamento')}
+Tipo de contrato: ${val('contrato')}
+Prazo de início: ${val('prazo')}
+Já teve agência/freelancer: ${val('historico')}
+Identidade visual: ${val('identidade')}
+Produção das fotos/vídeos: ${val('producao')}
+Gestão de comunidade: ${val('comunidade')}
+Relatórios/reuniões: ${val('relatorios')}
+Modelo de entrega: ${val('modelo')}
+Observações: ${val('obs')}
+Contato do cliente: ${val('contato')}`;
+
+    document.getElementById('resumoField').value = texto;
+  });
+
+  document.getElementById('successBox').textContent = 'Recebemos seu briefing! Entraremos em contato em breve.';
+
+  // SDK oficial do Formspree (AJAX) — mostra sucesso/erro automaticamente via data-fs-success / data-fs-error
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#briefing', formId: 'mlgqorad' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</body>
+</html>
